@@ -68,8 +68,9 @@ reply: "حدث خطأ أثناء الاتصال بالخادم أو بمفتاح
 // ===== تشغيل السيرفر =====
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(🔥 FirePro One AI Server running on port ${PORT});
+console.log(FirePro One AI Server running on port ${PORT});
 });
+
 
 
 
