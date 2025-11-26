@@ -1,0 +1,1230 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>FIREPRO ONE – منصة الذكاء الاصطناعي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg-main: #050816;
+      --bg-panel: #0b1020;
+      --bg-panel-soft: #13192c;
+      --accent: #ff6b1a;
+      --accent-soft: rgba(255, 107, 26, 0.12);
+      --accent-strong: #ff3b3b;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --shadow-soft: 0 20px 40px rgba(15, 23, 42, 0.7);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-pill: 999px;
+      --transition-fast: 0.2s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1e293b 0%, #020617 45%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1320px;
+      background: radial-gradient(circle at top left, #111827 0%, #020617 50%);
+      border-radius: 26px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 18px 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-shell::before {
+      content: "";
+      position: absolute;
+      inset: -120px;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(239, 68, 68, 0.08) 0, transparent 60%),
+        radial-gradient(circle at 90% 0%, rgba(59, 130, 246, 0.08) 0, transparent 55%);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .app-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ======= أعلى الصفحة ======= */
+    .app-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 0%, #f97316, #b91c1c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.4);
+      border: 1px solid rgba(248, 250, 252, 0.12);
+      overflow: hidden;
+    }
+
+    .logo-circle img {
+      width: 86%;
+      height: 86%;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle-main {
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .brand-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .lang-and-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 30px;
+      padding: 4px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.6);
+    }
+
+    .lang-btn {
+      border: none;
+      padding: 6px 13px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: background var(--transition-fast), color var(--transition-fast),
+        transform var(--transition-fast);
+      min-width: 72px;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #0b1120;
+      font-weight: 700;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(248, 113, 113, 0.6);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.14);
+      border: 1px solid rgba(22, 163, 74, 0.45);
+      font-size: 0.72rem;
+      color: #bbf7d0;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+    }
+
+    /* ======= الشريط المتحرك ======= */
+    .marquee-strip {
+      position: relative;
+      overflow: hidden;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #991b1b, #b91c1c, #ef4444, #b91c1c);
+      padding: 7px 0;
+      border: 1px solid rgba(252, 165, 165, 0.5);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.85);
+    }
+
+    .marquee-inner {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+      white-space: nowrap;
+      animation: marquee 26s linear infinite;
+      font-size: 0.8rem;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fee2e2;
+    }
+
+    .marquee-tag {
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.2);
+      font-size: 0.7rem;
+      border: 1px solid rgba(248, 250, 252, 0.15);
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ======= محتوى الصفحة الرئيسي ======= */
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(250px, 0.9fr) minmax(320px, 1.15fr) minmax(260px, 0.9fr);
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .panel {
+      background: radial-gradient(circle at 0% 0%, rgba(51, 65, 85, 0.7), #020617 55%);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      padding: 12px 13px 13px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -60px;
+      opacity: 0.35;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.35) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(248, 113, 113, 0.35) 0, transparent 55%);
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel-title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .panel-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel-title-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.66rem;
+      color: var(--text-muted);
+    }
+
+    .panel-subtitle {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .field-label {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .pill-select,
+    .pill-input,
+    .pill-textarea,
+    .pill-file {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 7px 11px;
+      color: var(--text-main);
+      font-size: 0.78rem;
+      outline: none;
+      transition: border var(--transition-fast), box-shadow var(--transition-fast),
+        transform var(--transition-fast), background var(--transition-fast);
+    }
+
+    .pill-select:focus,
+    .pill-input:focus,
+    .pill-textarea:focus,
+    .pill-file:focus {
+      border-color: #fb923c;
+      box-shadow: 0 0 0 1px rgba(248, 250, 252, 0.06),
+        0 0 0 1px rgba(249, 115, 22, 0.7);
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .pill-textarea {
+      min-height: 70px;
+      resize: vertical;
+      border-radius: 18px;
+    }
+
+    .pill-file {
+      padding: 7px 11px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1));
+    }
+
+    .hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #0b1120;
+      padding: 8px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 18px 30px rgba(248, 113, 22, 0.7);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        filter var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 25px 40px rgba(248, 113, 22, 0.85);
+      filter: brightness(1.03);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 20px rgba(248, 113, 22, 0.65);
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.92);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border var(--transition-fast), background var(--transition-fast),
+        color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(248, 250, 252, 0.8);
+      background: rgba(15, 23, 42, 1);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    /* ======= عمود المحادثة ======= */
+    .chat-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .chat-title-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chat-title-main span:first-child {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .chat-title-main span:last-child {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .ai-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #38bdf8, #0ea5e9);
+      color: #0b1120;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid rgba(248, 250, 252, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 12px 26px rgba(56, 189, 248, 0.7);
+      white-space: nowrap;
+    }
+
+    .chat-box {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 18px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 10px 11px;
+      min-height: 220px;
+      max-height: 270px;
+      overflow-y: auto;
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+
+    .chat-message {
+      margin-bottom: 8px;
+      padding: 6px 9px;
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .chat-message.user {
+      border-color: rgba(249, 115, 22, 0.7);
+      background: rgba(30, 64, 175, 0.12);
+    }
+
+    .chat-message.assistant {
+      border-color: rgba(56, 189, 248, 0.7);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .chat-input-row {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .chat-input-row textarea {
+      flex: 1;
+    }
+
+    .chat-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 5px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .mode-select {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .mode-chip {
+      border-radius: 999px;
+      padding: 3px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.7rem;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text-muted);
+      transition: background var(--transition-fast), color var(--transition-fast),
+        border var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .mode-chip.active {
+      background: rgba(59, 130, 246, 0.1);
+      color: #bfdbfe;
+      border-color: #60a5fa;
+      transform: translateY(-1px);
+    }
+
+    /* ======= عمود التقارير ======= */
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+
+    .pill-select.sm,
+    .pill-input.sm,
+    .pill-file.sm {
+      padding: 6px 10px;
+      font-size: 0.74rem;
+      border-radius: 999px;
+    }
+
+    .report-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ======= عمود مركز المساعدة ======= */
+    .help-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      margin-bottom: 6px;
+    }
+
+    .help-card strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .help-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .help-tag {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      font-size: 0.66rem;
+      color: var(--text-muted);
+    }
+
+    /* ======= ريسبونسيف ======= */
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .app-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .brand-row {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="app-inner">
+      <!-- ======= الهيدر ======= -->
+      <div class="app-top">
+        <div class="brand-row">
+          <div class="logo-circle">
+            <!-- ضع ملف الشعار firepro-logo.png في نفس المجلد -->
+            <img src="firepro-logo.png" alt="FirePro One Logo" />
+          </div>
+          <div class="brand-text">
+            <div class="brand-title" data-i18n="brandCode">FIREPRO ONE · AI</div>
+            <div class="brand-subtitle-main" data-i18n="brandTitle">
+              منصة الذكاء الاصطناعي المتخصصة في أنظمة الإنذار والوقاية من الحريق وإدارة المخاطر والسلامة العامة.
+            </div>
+            <div class="brand-desc" data-i18n="brandDesc">
+              مساعد ذكي لتحليل الأنظمة، توليد التقارير، ودعم قرارات السلامة للمباني والمنشآت الحساسة.
+            </div>
+          </div>
+        </div>
+
+        <div class="lang-and-status">
+          <div class="lang-switch">
+            <button class="lang-btn" id="btn-ar" onclick="setLanguage('ar')">AR عربي</button>
+            <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English EN</button>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span data-i18n="statusText">وضع التشغيل المتصل بالذكاء الاصطناعي.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= الشريط المتحرك ======= -->
+      <div class="marquee-strip">
+        <div class="marquee-inner" id="marquee">
+          <div class="marquee-item">
+            <span class="marquee-tag" data-i18n="marqueeTag1">إصدار PRO</span>
+            <span data-i18n="marqueeText1">
+              تم تطوير المساعد الذكي الاصطناعي من قبل FirePro One لرفع كفاءة إدارة مخاطر الحريق والسلامة العامة.
+            </span>
+          </div>
+          <div class="marquee-item">
+            <span class="marquee-tag" data-i18n="marqueeTag2">NFPA</span>
+            <span data-i18n="marqueeText2">
+              دعم تحليلات متوافقة مع NFPA 72 و NFPA 101 للمنشآت التجارية والصناعية.
+            </span>
+          </div>
+          <div class="marquee-item">
+            <span class="marquee-tag" data-i18n="marqueeTag3">تقارير ذكية</span>
+            <span data-i18n="marqueeText3">
+              توليد تقارير سلامة احترافية قابلة للطباعة والإرسال للجهات الرسمية والاستشاريين.
+            </span>
+          </div>
+
+          <!-- تكرار للتمرير اللانهائي -->
+          <div class="marquee-item">
+            <span class="marquee-tag" data-i18n="marqueeTag1">إصدار PRO</span>
+            <span data-i18n="marqueeText1">
+              تم تطوير المساعد الذكي الاصطناعي من قبل FirePro One لرفع كفاءة إدارة مخاطر الحريق والسلامة العامة.
+            </span>
+          </div>
+          <div class="marquee-item">
+            <span class="marquee-tag" data-i18n="marqueeTag2">NFPA</span>
+            <span data-i18n="marqueeText2">
+              دعم تحليلات متوافقة مع NFPA 72 و NFPA 101 للمنشآت التجارية والصناعية.
+            </span>
+          </div>
+          <div class="marquee-item">
+            <span class="marquee-tag" data-i18n="marqueeTag3">تقارير ذكية</span>
+            <span data-i18n="marqueeText3">
+              توليد تقارير سلامة احترافية قابلة للطباعة والإرسال للجهات الرسمية والاستشاريين.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= المحتوى الرئيسي ======= -->
+      <div class="main-grid">
+        <!-- ======= 1) عمود التقارير الذكية ======= -->
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="panel-title-bar">
+              <div class="panel-title">
+                <span data-i18n="reportsTitle">مولّد التقارير الذكي</span>
+              </div>
+              <span class="panel-title-pill" data-i18n="reportsSubtitle">
+                إدخال بيانات مبسطة ليقوم المساعد بإعداد تقرير احترافي نيابة عنك.
+              </span>
+            </div>
+
+            <div class="report-grid">
+              <div>
+                <div class="field-label" data-i18n="reportTypeLabel">
+                  نوع التقرير المطلوب
+                </div>
+                <select id="report-type" class="pill-select sm">
+                  <option value="nfpa72" data-i18n="reportType1">
+                    تقرير مراجعة نظام إنذار حريق (NFPA 72)
+                  </option>
+                  <option value="risk" data-i18n="reportType2">
+                    تقرير تقييم مخاطر الحريق للموقع
+                  </option>
+                  <option value="evac" data-i18n="reportType3">
+                    تقرير خطة الإخلاء والسلامة
+                  </option>
+                  <option value="maintenance" data-i18n="reportType4">
+                    تقرير صيانة دورية لنظام الإنذار
+                  </option>
+                </select>
+              </div>
+
+              <div>
+                <div class="field-label" data-i18n="occupancyLabel">
+                  نوع الإشغال / طبيعة النشاط
+                </div>
+                <input
+                  id="occupancy"
+                  class="pill-input sm"
+                  type="text"
+                  placeholder="مثال: معرض تجاري – مستودع – برج سكني"
+                />
+              </div>
+
+              <div>
+                <div class="field-label" data-i18n="areaLabel">
+                  مساحة الموقع التقريبية
+                </div>
+                <input
+                  id="area"
+                  class="pill-input sm"
+                  type="text"
+                  placeholder="مثال: ٣٠٠ م٢ – ١٢٠٠ م٢ – برج من ١٠ طوابق"
+                />
+              </div>
+
+              <div>
+                <div class="field-label" data-i18n="hazardsLabel">
+                  أهم المخاطر أو الملاحظات
+                </div>
+                <input
+                  id="hazards"
+                  class="pill-input sm"
+                  type="text"
+                  placeholder="مثال: أسلاك مكشوفة – تخزين مواد قابلة للاشتعال – مخارج طوارئ مغلقة"
+                />
+              </div>
+
+              <div>
+                <div class="field-label" data-i18n="pdfLabel">
+                  رفع ملف PDF (اختياري)
+                </div>
+                <input
+                  id="pdf-file"
+                  class="pill-file sm"
+                  type="file"
+                  accept="application/pdf"
+                  onchange="handlePdfChange(event)"
+                />
+                <div class="hint" id="pdf-hint" data-i18n="pdfHint">
+                  يمكنك رفع مخطط، تقرير قديم، أو مواصفات فنية ليستفيد منها المساعد في صياغة التقرير.
+                </div>
+              </div>
+
+              <div>
+                <div class="field-label" data-i18n="extraNotesLabel">
+                  ملاحظات إضافية تريد تضمينها في التقرير
+                </div>
+                <input
+                  id="extra-notes"
+                  class="pill-input sm"
+                  type="text"
+                  placeholder="مثال: مطلوب لغة رسمية – موجهة لجهة حكومية – موجهة لاستشاري المشروع"
+                />
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 4px;">
+                <button class="btn-primary" onclick="generateReport()">
+                  <span data-i18n="btnGenerateReport">توليد تقرير PDF نصي</span>
+                </button>
+                <span class="report-badge" data-i18n="reportBadge">
+                  التقارير الناتجة قابلة للنسخ، التنسيق في Word، أو الطباعة المباشرة.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======= 2) عمود المحادثة ======= -->
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="chat-header-row">
+              <div class="chat-title-main">
+                <span data-i18n="chatTitle">المحادثة الذكية مع مساعد FirePro One</span>
+                <span data-i18n="chatSubtitle">
+                  اكتب سؤالك أو تفاصيل الموقع ليقوم المساعد بتحليل أنظمة الإنذار والوقاية من الحريق واقتراح الحلول.
+                </span>
+              </div>
+              <div class="ai-badge">
+                <span>AI</span>
+                <span data-i18n="aiBadge">Fire Safety Expert</span>
+              </div>
+            </div>
+
+            <div id="chat-box" class="chat-box">
+              <!-- الرسائل تظهر هنا -->
+            </div>
+
+            <div class="chat-input-row">
+              <textarea
+                id="user-input"
+                class="pill-textarea"
+                placeholder="اكتب سؤالك هنا بالتفصيل..."
+              ></textarea>
+              <button class="btn-primary" onclick="sendMessage()">
+                <span data-i18n="btnSend">إرسال</span>
+              </button>
+            </div>
+
+            <div class="chat-footer-row">
+              <div class="mode-select">
+                <div class="mode-chip active" data-mode="chat" onclick="setMode('chat')" data-i18n="modeChat">
+                  استشارة سريعة
+                </div>
+                <div class="mode-chip" data-mode="design" onclick="setMode('design')" data-i18n="modeDesign">
+                  تصميم نظام إنذار
+                </div>
+                <div class="mode-chip" data-mode="report" onclick="setMode('report')" data-i18n="modeReport">
+                  صياغة تقرير رسمي
+                </div>
+              </div>
+              <span data-i18n="chatFooterHint">
+                يعتمد مستوى التفاصيل على كمية المعلومات التي تكتبها في السؤال.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======= 3) عمود مركز المساعدة ======= -->
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="panel-title-bar">
+              <div class="panel-title">
+                <span data-i18n="helpTitle">مركز المساعدة والاستشارات السريعة</span>
+              </div>
+              <span class="panel-title-pill" data-i18n="helpSubtitle">
+                اختر نوع الاستشارة لكتابة سؤال واضح، أو انسخ أحد النماذج مباشرة في خانة المحادثة.
+              </span>
+            </div>
+
+            <div class="help-card">
+              <strong data-i18n="helpCard1Title">مراجعة مطابقة نظام الإنذار لمتطلبات NFPA 72</strong>
+              <span data-i18n="helpCard1Body">
+                اطلب من المساعد مراجعة عدد الكواشف، أماكن كواسر الزجاج، عدد الأجراس، وحسابات الأحمال ومعايير التوزيع.
+              </span>
+              <div class="help-tag-row">
+                <span class="help-tag">NFPA 72</span>
+                <span class="help-tag" data-i18n="helpTagDesign">Design Review</span>
+              </div>
+            </div>
+
+            <div class="help-card">
+              <strong data-i18n="helpCard2Title">تصميم نظام إنذار جديد لمحل، مستودع، أو مبنى إداري</strong>
+              <span data-i18n="helpCard2Body">
+                اكتب نوع النشاط، مساحة الموقع، ارتفاع السقف، وعدد الأدوار، ليقترح المساعد نوع النظام، عدد اللوحات، وعدد الكواشف.
+              </span>
+              <div class="help-tag-row">
+                <span class="help-tag" data-i18n="helpTagNewSystem">New System</span>
+                <span class="help-tag" data-i18n="helpTagProposal">Technical Proposal</span>
+              </div>
+            </div>
+
+            <div class="help-card">
+              <strong data-i18n="helpCard3Title">إنشاء تقرير سلامة رسمي لجهة حكومية أو استشاري</strong>
+              <span data-i18n="helpCard3Body">
+                استخدم قسم مولّد التقارير الذكي وأضف ملاحظاتك، وسيقوم المساعد بإعداد تقرير بصياغة رسمية قابلة للطباعة.
+              </span>
+              <div class="help-tag-row">
+                <span class="help-tag" data-i18n="helpTagReport">Safety Report</span>
+                <span class="help-tag" data-i18n="helpTagAuthority">Authority Submission</span>
+              </div>
+            </div>
+
+            <div class="help-card">
+              <strong data-i18n="helpCard4Title">تحسين أنظمة السلامة لموقع قائم</strong>
+              <span data-i18n="helpCard4Body">
+                صف وضع الموقع الحالي، عدد المخارج، أماكن الطفايات، وجود أنظمة إطفاء أخرى، وسيقترح المساعد خطة تحسين عملية.
+              </span>
+              <div class="help-tag-row">
+                <span class="help-tag" data-i18n="helpTagImprovement">System Upgrade</span>
+                <span class="help-tag" data-i18n="helpTagAudit">Safety Audit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- نهاية main-grid -->
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:3000/api/chat";
+    let currentLang = "ar";
+    let currentMode = "chat";
+
+    const translations = {
+      ar: {
+        brandCode: "FIREPRO ONE · منصة الذكاء الاصطناعي",
+        brandTitle:
+          "منصة الذكاء الاصطناعي المتخصصة في أنظمة الإنذار والوقاية من الحريق وإدارة المخاطر والسلامة العامة.",
+        brandDesc:
+          "مساعد ذكي لتحليل الأنظمة، توليد التقارير، ودعم قرارات السلامة للمباني والمنشآت الحساسة.",
+        statusText: "وضع التشغيل المتصل بالذكاء الاصطناعي.",
+        marqueeTag1: "إصدار PRO",
+        marqueeText1:
+          "تم تطوير المساعد الذكي الاصطناعي من قبل FirePro One لرفع كفاءة إدارة مخاطر الحريق والسلامة العامة.",
+        marqueeTag2: "NFPA",
+        marqueeText2:
+          "دعم تحليلات متوافقة مع NFPA 72 و NFPA 101 للمنشآت التجارية والصناعية.",
+        marqueeTag3: "تقارير ذكية",
+        marqueeText3:
+          "توليد تقارير سلامة احترافية قابلة للطباعة والإرسال للجهات الرسمية والاستشاريين.",
+        reportsTitle: "مولّد التقارير الذكي",
+        reportsSubtitle:
+          "إدخال بيانات مبسطة ليقوم المساعد بإعداد تقرير احترافي نيابة عنك.",
+        reportTypeLabel: "نوع التقرير المطلوب",
+        reportType1: "تقرير مراجعة نظام إنذار حريق (NFPA 72)",
+        reportType2: "تقرير تقييم مخاطر الحريق للموقع",
+        reportType3: "تقرير خطة الإخلاء والسلامة",
+        reportType4: "تقرير صيانة دورية لنظام الإنذار",
+        occupancyLabel: "نوع الإشغال / طبيعة النشاط",
+        areaLabel: "مساحة الموقع التقريبية",
+        hazardsLabel: "أهم المخاطر أو الملاحظات",
+        pdfLabel: "رفع ملف PDF (اختياري)",
+        pdfHint:
+          "يمكنك رفع مخطط، تقرير قديم، أو مواصفات فنية ليستفيد منها المساعد في صياغة التقرير.",
+        extraNotesLabel: "ملاحظات إضافية تريد تضمينها في التقرير",
+        btnGenerateReport: "توليد تقرير PDF نصي",
+        reportBadge:
+          "التقارير الناتجة قابلة للنسخ، التنسيق في Word، أو الطباعة المباشرة.",
+        chatTitle: "المحادثة الذكية مع مساعد FirePro One",
+        chatSubtitle:
+          "اكتب سؤالك أو تفاصيل الموقع ليقوم المساعد بتحليل أنظمة الإنذار والوقاية من الحريق واقتراح الحلول.",
+        aiBadge: "خبير أنظمة إنذار وحرائق",
+        btnSend: "إرسال",
+        modeChat: "استشارة سريعة",
+        modeDesign: "تصميم نظام إنذار",
+        modeReport: "صياغة تقرير رسمي",
+        chatFooterHint:
+          "يعتمد مستوى التفاصيل على كمية المعلومات التي تكتبها في السؤال.",
+        helpTitle: "مركز المساعدة والاستشارات السريعة",
+        helpSubtitle:
+          "اختر نوع الاستشارة لكتابة سؤال واضح، أو انسخ أحد النماذج مباشرة في خانة المحادثة.",
+        helpCard1Title: "مراجعة مطابقة نظام الإنذار لمتطلبات NFPA 72",
+        helpCard1Body:
+          "اطلب من المساعد مراجعة عدد الكواشف، أماكن كواسر الزجاج، عدد الأجراس، وحسابات الأحمال ومعايير التوزيع.",
+        helpCard2Title: "تصميم نظام إنذار جديد لمحل، مستودع، أو مبنى إداري",
+        helpCard2Body:
+          "اكتب نوع النشاط، مساحة الموقع، ارتفاع السقف، وعدد الأدوار، ليقترح المساعد نوع النظام، عدد اللوحات، وعدد الكواشف.",
+        helpCard3Title: "إنشاء تقرير سلامة رسمي لجهة حكومية أو استشاري",
+        helpCard3Body:
+          "استخدم قسم مولّد التقارير الذكي وأضف ملاحظاتك، وسيقوم المساعد بإعداد تقرير بصياغة رسمية قابلة للطباعة.",
+        helpCard4Title: "تحسين أنظمة السلامة لموقع قائم",
+        helpCard4Body:
+          "صف وضع الموقع الحالي، عدد المخارج، أماكن الطفايات، وجود أنظمة إطفاء أخرى، وسيقترح المساعد خطة تحسين عملية.",
+        helpTagDesign: "مراجعة تصميم",
+        helpTagNewSystem: "نظام جديد",
+        helpTagProposal: "عرض فني",
+        helpTagReport: "تقرير سلامة",
+        helpTagAuthority: "رفع لجهة رسمية",
+        helpTagImprovement: "تحسين نظام",
+        helpTagAudit: "تدقيق سلامة"
+      },
+      en: {
+        brandCode: "FIREPRO ONE · AI Platform",
+        brandTitle:
+          "AI platform specialized in fire alarm & protection systems, risk management, and public safety.",
+        brandDesc:
+          "A smart assistant for system analysis, report generation, and safety decision support for critical facilities.",
+        statusText: "Connected to FirePro One AI assistant.",
+        marqueeTag1: "PRO Edition",
+        marqueeText1:
+          "FirePro One AI assistant developed to enhance fire risk management and public safety performance.",
+        marqueeTag2: "NFPA",
+        marqueeText2:
+          "Supports analysis aligned with NFPA 72 & NFPA 101 for commercial and industrial occupancies.",
+        marqueeTag3: "Smart Reports",
+        marqueeText3:
+          "Generates professional safety reports ready for printing or submission to authorities and consultants.",
+        reportsTitle: "Smart Report Generator",
+        reportsSubtitle:
+          "Provide brief inputs and let the assistant prepare a professional safety report.",
+        reportTypeLabel: "Required report type",
+        reportType1: "Fire alarm system review report (NFPA 72)",
+        reportType2: "Site fire risk assessment report",
+        reportType3: "Evacuation & safety plan report",
+        reportType4: "Periodic maintenance report for fire alarm system",
+        occupancyLabel: "Occupancy type / business nature",
+        areaLabel: "Approximate site area",
+        hazardsLabel: "Key hazards or observations",
+        pdfLabel: "Upload PDF file (optional)",
+        pdfHint:
+          "You may upload drawings, previous reports, or technical specs to support the report generation.",
+        extraNotesLabel: "Additional notes to include in the report",
+        btnGenerateReport: "Generate textual PDF-style report",
+        reportBadge:
+          "Reports can be copied, formatted in Word, or printed directly.",
+        chatTitle: "Smart dialogue with FirePro One assistant",
+        chatSubtitle:
+          "Write your question or site details and the assistant will analyze fire alarm & protection systems and propose solutions.",
+        aiBadge: "Fire safety expert",
+        btnSend: "Send",
+        modeChat: "Quick consultation",
+        modeDesign: "System design",
+        modeReport: "Official report drafting",
+        chatFooterHint:
+          "The more details you provide, the deeper the assistant’s analysis.",
+        helpTitle: "Support & quick advisory center",
+        helpSubtitle:
+          "Select the advisory type to write a clear question or copy a template directly into the chat box.",
+        helpCard1Title:
+          "Verify fire alarm system compliance with NFPA 72 requirements",
+        helpCard1Body:
+          "Ask the assistant to review number of detectors, MCPs, sounders, load calculations, and distribution criteria.",
+        helpCard2Title:
+          "Design a new fire alarm system for a shop, warehouse, or office building",
+        helpCard2Body:
+          "Provide occupancy type, area, ceiling height, and number of floors to get a suggested system type and device counts.",
+        helpCard3Title:
+          "Generate an official safety report for authorities or consultants",
+        helpCard3Body:
+          "Use the Smart Report Generator and add your notes; the assistant will prepare a formal report ready for printing.",
+        helpCard4Title: "Upgrade safety systems for an existing site",
+        helpCard4Body:
+          "Describe current conditions: exits, extinguishers, other systems, and get a practical improvement plan.",
+        helpTagDesign: "Design review",
+        helpTagNewSystem: "New system",
+        helpTagProposal: "Technical proposal",
+        helpTagReport: "Safety report",
+        helpTagAuthority: "Authority submission",
+        helpTagImprovement: "System upgrade",
+        helpTagAudit: "Safety audit"
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+      document.getElementById("btn-ar").classList.toggle("active", lang === "ar");
+      document.getElementById("btn-en").classList.toggle("active", lang === "en");
+
+      const dict = translations[lang];
+      document
+        .querySelectorAll("[data-i18n]")
+        .forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) {
+            el.textContent = dict[key];
+          }
+        });
+
+      const occ = document.getElementById("occupancy");
+      const area = document.getElementById("area");
+      const hazards = document.getElementById("hazards");
+      const extra = document.getElementById("extra-notes");
+      const userInput = document.getElementById("user-input");
+
+      if (lang === "ar") {
+        if (!occ.value) occ.placeholder = "مثال: معرض تجاري – مستودع – برج سكني";
+        if (!area.value)
+          area.placeholder = "مثال: ٣٠٠ م٢ – ١٢٠٠ م٢ – برج من ١٠ طوابق";
+        if (!hazards.value)
+          hazards.placeholder =
+            "مثال: أسلاك مكشوفة – تخزين مواد قابلة للاشتعال – مخارج طوارئ مغلقة";
+        if (!extra.value)
+          extra.placeholder =
+            "مثال: مطلوب لغة رسمية – موجهة لجهة حكومية – موجهة لاستشاري المشروع";
+        if (!userInput.value)
+          userInput.placeholder = "اكتب سؤالك هنا بالتفصيل...";
+      } else {
+        if (!occ.value)
+          occ.placeholder = "Example: retail shop – warehouse – residential tower";
+        if (!area.value)
+          area.placeholder = "Example: 300 m² – 1200 m² – 10-storey building";
+        if (!hazards.value)
+          hazards.placeholder =
+            "Example: exposed wiring – flammable storage – blocked exits";
+        if (!extra.value)
+          extra.placeholder =
+            "Example: formal language – addressed to authority – to consultant";
+        if (!userInput.value)
+          userInput.placeholder = "Describe your question or site in detail...";
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll(".mode-chip").forEach((chip) => {
+        chip.classList.toggle("active", chip.dataset.mode === mode);
+      });
+    }
+
+    function handlePdfChange(event) {
+      const file = event.target.files[0];
+      const hint = document.getElementById("pdf-hint");
+      if (!file) {
+        setLanguage(currentLang); // يرجع النص حسب اللغة
+        return;
+      }
+      if (currentLang === "ar") {
+        hint.textContent = "تم اختيار الملف: " + file.name + " (لن يتم رفعه الآن، فقط مذكور في التقرير).";
+      } else {
+        hint.textContent =
+          "Selected file: " +
+          file.name +
+          " (will be referenced in the report, not uploaded yet).";
+      }
+    }
+
+    function appendMessage(text, role) {
+      const box = document.getElementById("chat-box");
+      const div = document.createElement("div");
+      div.className = "chat-message " + role;
+      div.textContent = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    async function sendMessage(fromReport = false, customPrompt = "") {
+      const inputEl = document.getElementById("user-input");
+      const userText = fromReport ? customPrompt : inputEl.value.trim();
+      if (!userText) return;
+
+      appendMessage(userText, "user");
+      if (!fromReport) inputEl.value = "";
+
+      const payload = {
+        system:
+          currentLang === "ar"
+            ? "أنت مساعد FirePro One الذكي المتخصص في أنظمة إنذار الحريق، أنظمة الوقاية، إدارة المخاطر، ومعايير NFPA. أجب بلغة واضحة، بنقاط مرتبة، مع توضيح أي افتراضات تحتاجها."
+            : "You are FirePro One AI assistant, specialized in fire alarm and protection systems, NFPA codes, and fire risk management. Respond clearly, with structured bullet points and any reasonable assumptions.",
+        user: userText,
+        lang: currentLang,
+        mode: currentMode
+      };
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: JSON.stringify(payload) })
+        });
+
+        if (!res.ok) {
+          throw new Error("HTTP " + res.status);
+        }
+
+        const data = await res.json();
+        const reply = data.reply || (currentLang === "ar"
+          ? "تم استلام الرد من الخادم لكن لم يتم العثور على نص مناسب."
+          : "Received response from server but no message text was found.");
+        appendMessage(reply, "assistant");
+      } catch (err) {
+        console.error(err);
+        appendMessage(
+          currentLang === "ar"
+            ? "المساعد: حدث خطأ أثناء الاتصال بالخادم. تأكد أن السيرفر يعمل على المنفذ 3000."
+            : "Assistant: An error occurred while contacting the server. Make sure the backend is running on port 3000.",
+          "assistant"
+        );
+      }
+    }
+
+    function generateReport() {
+      const typeEl = document.getElementById("report-type");
+      const occ = document.getElementById("occupancy").value.trim();
+      const area = document.getElementById("area").value.trim();
+      const hazards = document.getElementById("hazards").value.trim();
+      const extra = document.getElementById("extra-notes").value.trim();
+      const pdfFile = document.getElementById("pdf-file").files[0];
+
+      const typeText =
+        typeEl.options[typeEl.selectedIndex].textContent.trim();
+
+      let prompt = "";
+
+      if (currentLang === "ar") {
+        prompt +=
+          "أرغب في إعداد تقرير سلامة احترافي باللغة العربية وفق معايير أنظمة إنذار الحريق والسلامة العامة.\n";
+        prompt += "نوع التقرير: " + typeText + ".\n";
+        prompt += "نوع الإشغال / طبيعة النشاط: " + (occ || "غير محدد") + ".\n";
+        prompt += "مساحة الموقع التقريبية: " + (area || "غير محددة") + ".\n";
+        prompt += "أهم المخاطر أو الملاحظات: " + (hazards || "لا يوجد معلومات إضافية") + ".\n";
+        if (pdfFile) {
+          prompt +=
+            "تم اختيار ملف PDF اسمه \"" +
+            pdfFile.name +
+            "\" ويُفترض أن يحتوي على مخططات أو معلومات مساندة.\n";
+        }
+        prompt +=
+          "ملاحظات إضافية من العميل: " + (extra || "لا توجد ملاحظات خاصة.") + ".\n";
+        prompt +=
+          "رجاءً قدّم التقرير بصياغة رسمية، مقسمًا إلى: (مقدمة – وصف الموقع – حالة أنظمة الإنذار والسلامة – المخاطر والملاحظات – التوصيات – الخاتمة).";
+      } else {
+        prompt +=
+          "I would like to generate a professional fire safety report in English, aligned with fire alarm and life-safety standards.\n";
+        prompt += "Report type: " + typeText + ".\n";
+        prompt += "Occupancy / business type: " + (occ || "Not specified") + ".\n";
+        prompt += "Approximate site area: " + (area || "Not specified") + ".\n";
+        prompt += "Key hazards / observations: " + (hazards || "No additional data") + ".\n";
+        if (pdfFile) {
+          prompt +=
+            'A PDF file named "' +
+            pdfFile.name +
+            '" is assumed to contain drawings or supporting information.\n';
+        }
+        prompt +=
+          "Additional client notes: " + (extra || "No special notes.") + ".\n";
+        prompt +=
+          "Please provide a formal report structured into: Introduction – Site description – Status of fire alarm & safety systems – Hazards & observations – Recommendations – Conclusion.";
+      }
+
+      setMode("report");
+      sendMessage(true, prompt);
+    }
+
+    // تفعيل اللغة العربية عند بدء الصفحة
+    setLanguage("ar");
+  </script>
+</body>
+</html>
+
