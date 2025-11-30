@@ -71,9 +71,10 @@ async function handleAssistantRequest(req, res) {
 Mode: ${mode}
 Standard: ${standard.toUpperCase()}
 Respond in clear English with bullet points.`;
+
 const systemPrompt =
   system && typeof system === "string"
-    ? ${baseSystemPrompt}\n\nAdditional system instructions from UI:\n${system}
+    ? `${baseSystemPrompt}\n\nAdditional system instructions from UI:\n${system}`
     : baseSystemPrompt;
 
     const completion = await client.responses.create({
@@ -107,6 +108,7 @@ app.listen(PORT, () => {
   console.log(FirePro One AI Server is running on port: ${PORT});
   console.log("======================================");
 });
+
 
 
 
