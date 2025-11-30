@@ -1,73 +1,136 @@
 
-// ===============================================
-//     FirePro One ⚡ AI Assistant Backend (PRO)
-// ===============================================
+// ================================
+// FirePro One AI - Final Server.js (متوافق مع الواجهة)
+// ================================
 
-const express = require("express");
-const cors = require("cors");
-const OpenAI = require("openai");
-const path = require("path");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import OpenAI from "openai";
 
-// ===== إعداد OpenAI =====
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+dotenv.config();
 
-// ===== إنشاء تطبيق Express =====
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 10000;
 
-// ===== ميدل وير =====
-app.use(cors());
+// السماح بالوصول من كل النطاقات
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
+
 app.use(express.json());
 
-// ===== تقديم الملفات الثابتة (HTML + CSS + الصور) =====
-app.use(express.static(__dirname));
+// OpenAI Client
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-// ===== الصفحة الرئيسية =====
+// =============================
+// مسار فحص السيرفر
+// =============================
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
+  res.json({
+    status: "ok",
+    message: "FirePro One AI server is running",
+    port: PORT,
+  });
 });
 
-// ===== واجهة المحادثة API =====
-app.post("/api/chat", async (req, res) => {
-    try {
-        const { message, system, lang, mode } = req.body;
+// =============================
+// دالة معالجة طلبات المساعد
+// واجهة الويب ترسل: { system, user, lang, mode, standard }
+// =============================
+async function handleAssistantRequest(req, res) {
+  try {
+    const {
+      system,   // نص النظام القادم من الواجهة (اختياري)
+      user,     // رسالة المستخدم (مطلوبة)
+      lang = "ar",
+      mode = "chat",
+      standard = "nfpa",
+    } = req.body;
 
-        // الاستدعاء لـ OpenAI
-        const completion = await client.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                {
-                    role: "system",
-                    content:
-                        system ||
-                        "You are FirePro One AI Assistant specialized in fire alarm systems, NFPA codes, fire risk assessment, safety consultancy, and emergency response guidance.",
-                },
-                {
-                    role: "user",
-                    content: message || "",
-                },
-            ],
-        });
-
-        res.json({
-            reply: completion.choices[0].message.content,
-        });
-    } catch (err) {
-        console.error("❌ API Error:", err);
-        res.json({
-            
-reply: "حدث خطأ أثناء الاتصال بالخادم أو بمفتاح الذكاء الاصطناعي. يرجى المحاولة لاحقًا أو التحقق من الإعدادات 🔐",
-
-        });
+    if (!user || typeof user !== "string") {
+      return res.status(400).json({ error: "رسالة غير صالحة." });
     }
-});
 
+    // برومبت أساسي حسب اللغة والمعيار
+    const baseSystemPrompt =
+      lang === "ar"
+        ? `أنت مساعد FirePro One الذكي المتخصص في:
+- أنظمة إنذار الحريق
+- أنظمة الوقاية
+- إدارة المخاطر
+- معايير NFPA والكود السعودي ومتطلبات الدفاع المدني
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`FirePro One AI Server running on port ${PORT}`);
+وضع العمل الحالي: ${mode}
+المعيار المرجعي: ${standard.toUpperCase()}
+
+أجب بلغة عربية واضحة، بنقاط مرتبة، واشرح الافتراضات عند الحاجة.`
+        : `You are the FirePro One AI assistant, specialized in:
+- Fire alarm systems
+- Fire protection & life safety
+- Risk management
+- NFPA codes and Saudi local fire/safety code
+
+Current mode: ${mode}
+Reference standard: ${standard.toUpperCase()}
+
+Respond in clear, structured English with bullet points and explain assumptions.`;
+
+    // لو فيه system جاي من الواجهة ندمجه مع البرومبت الأساسي
+    const systemPrompt =
+      system && typeof system === "string"
+        ? ${baseSystemPrompt}\n\nAdditional system instructions from UI:\n${system}
+        : baseSystemPrompt;
+
+    // إرسال الطلب إلى OpenAI
+    const completion = await client.responses.create({
+      model: "gpt-4.1-mini",
+      input: [
+        {
+          role: "system",
+          content: systemPrompt,
+        },
+        {
+          role: "user",
+          content: user,
+        },
+      ],
+    });
+
+    const replyText =
+      completion.output?.[0]?.content?.[0]?.text ||
+      (lang === "ar"
+        ? "تم إنشاء الرد ولكن لم يتم العثور على نص مناسب."
+        : "A reply was generated but no text was found.");
+
+    return res.json({ reply: replyText });
+  } catch (error) {
+    console.error("❌ Error in /chat:", error);
+    return res.status(500).json({
+      error:
+        "حدث خطأ داخلي أثناء الاتصال بنظام الذكاء الاصطناعي. يرجى المحاولة لاحقاً.",
+    });
+  }
+}
+
+// =============================
+// مسار /chat الرسمي (تستدعيه الواجهة)
+// =============================
+app.post("/chat", handleAssistantRequest);
+
+// =============================
+// تشغيل السيرفر
+// =============================
+app.listen(PORT, () => {
+  console.log("======================================");
+  console.log(🔥 FirePro One AI server running on: ${PORT});
+  console.log("======================================");
 });
 
 
