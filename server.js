@@ -71,10 +71,10 @@ async function handleAssistantRequest(req, res) {
 Mode: ${mode}
 Standard: ${standard.toUpperCase()}
 Respond in clear English with bullet points.`;
-
-    const systemPrompt = system
-      ? ${baseSystemPrompt}\n\nAdditional system instructions:\n${system}
-      : baseSystemPrompt;
+const systemPrompt =
+  system && typeof system === "string"
+    ? ${baseSystemPrompt}\n\nAdditional system instructions from UI:\n${system}
+    : baseSystemPrompt;
 
     const completion = await client.responses.create({
       model: "gpt-4.1-mini",
@@ -107,6 +107,7 @@ app.listen(PORT, () => {
   console.log(🔥 FirePro One AI server running on: ${PORT});
   console.log("======================================");
 });
+
 
 
 
