@@ -104,10 +104,11 @@ const systemPrompt =
 app.post("/chat", handleAssistantRequest);
 
 app.listen(PORT, () => {
-  console.log("======================================");
-  console.log(FirePro One AI Server is running on port: ${PORT});
-  console.log("======================================");
+console.log("======================================");
+console.log(FirePro One AI server is running on port: ${PORT});
+console.log("======================================");
 });
+
 
 
 
