@@ -1,7 +1,6 @@
-// ================================
-// FirePro One AI - Stable Server.js
-// (متوافق مع الواجهة ومع أغلب نسخ openai)
-// ================================
+// ==========================
+// FirePro One AI - Server.js
+// ==========================
 
 import express from "express";
 import cors from "cors";
@@ -11,26 +10,26 @@ import OpenAI from "openai";
 dotenv.config();
 
 const app = express();
-// Render يعطي PORT من المتغيرات البيئية
 const PORT = process.env.PORT || 10000;
 
-// ============= إعداد CORS =================
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
 );
 
 app.use(express.json());
 
-// ============= عميل OpenAI =================
+// OpenAI Client
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ============= فحص السيرفر =================
+// =====================
+// فحص السيرفر
+// =====================
 app.get("/", (req, res) => {
   res.json({
     status: "ok",
@@ -39,175 +38,114 @@ app.get("/", (req, res) => {
   });
 });
 
-// ============= الدالة الرئيسية للمساعد =================
-async function handleAssistantRequest(req, res) {
-  try {
-    const {
-      system,
-      user,
-      lang = "ar",
-      mode = "chat",
-      standard = "nfpa",
-    } = req.body;
-
-    if (!user || typeof user !== "string") {
-      return res.status(400).json({ error: "رسالة غير صالحة." });
-    }
-
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({
-        error:
-          "مفتاح OpenAI غير موجود في متغير البيئة OPENAI_API_KEY على السيرفر.",
-      });
-    }
-
-    const baseSystemPrompt =
-      lang === "ar"
-        ? `أنت مساعد FirePro One الذكي المتخصص في:
-- أنظمة إنذار الحريق
-- أنظمة الوقاية
-- إدارة المخاطر
-- معايير NFPA والكود السعودي ومتطلبات الدفاع المدني
-
-وضع العمل الحالي: ${mode}
-المعيار المرجعي: ${standard.toUpperCase()}
-
-أجب بلغة عربية واضحة، بنقاط مرتبة، مع عناوين فرعية عند الحاجة.`
-        : `You are the FirePro One AI assistant specialized in:
-- Fire alarm systems
-- Fire protection systems
-- Fire risk management
-- NFPA standards and local Saudi fire codes
-
-Current mode: ${mode}
-Reference standard: ${standard.toUpperCase()}
-
-Respond in clear English, using structured bullet points and headings where helpful.`;
-
-    const systemPrompt =
-      system && typeof system === "string"
-        ? `${baseSystemPrompt}\n\nAdditional system instructions from UI:\n${system}`
-        : baseSystemPrompt;
-
-    // ================= استدعاء OpenAI (نسخة مستقرة) =================
- // =============================
-// استدعاء OpenAI مع تحليل حوادث الحرائق
-// =============================
+// ================================
+// برومبت تحليل حوادث الحرائق
+// ================================
 const fireIncidentPrompt = `
-أنت خبير محترف في تحليل حوادث الحرائق (Fire Investigation)، متمرس بمعايير NFPA 921,
-NFPA 72, NFPA 70، والكود السعودي والدفاع المدني. قم بتحليل أي حادث حريق يقدمه
-المستخدم عبر الخطوات التالية:
+أنت خبير محترف في تحليل حوادث الحرائق (Fire Investigation)، ولديك خبرة واسعة 
+في NFPA 921 و NFPA 72 و NFPA 70 والكود السعودي والدفاع المدني.
 
-1️⃣ تحليل وصف الحادث:
-- تحديد مكان بداية الحريق المحتمل.
-- هل السبب كهربائي، ميكانيكي، بشري، سوء تخزين، حرارة، شرر، تماس، مصدر اشتعال؟
-- العوامل التي ساعدت على انتشار النيران.
+قم بتحليل أي حادث حريق يقدمه المستخدم حسب الخطوات التالية:
 
-2️⃣ التحليل الزمني للحادث:
+1) تحليل وصف الحادث:
+- موقع بداية الحريق المحتمل
+- العامل المسبب (تماس – شرر – حمل زائد – لهب – تخزين خطير – مادة قابلة)
+- العوامل التي ساعدت على الانتشار
+
+2) التحليل الزمني:
 - كيف بدأ الحريق؟
-- كيف تم اكتشافه؟
+- كيف اكتُشف؟
 - كيف انتشر؟
-- كيف تمت الاستجابة الأولية؟
+- كيف كانت أول استجابة؟
 
-3️⃣ تقييم أنظمة السلامة:
-- هل الموقع متوافق مع NFPA والكود السعودي؟
-- هل تعمل أنظمة الإنذار؟ الرش الآلي؟ الطفايات؟ الإخلاء؟
-- هل فشلت أي منظومة؟ لماذا؟
+3) تقييم أنظمة السلامة:
+- هل يوجد نظام إنذار؟ وهل عمل؟
+- هل يوجد رش آلي؟ وهل فشل؟
+- عدد الطفايات وحالتها
+- توافق الموقع مع NFPA والكود السعودي
 
-4️⃣ الأسباب المحتملة:
-- قدم 3–5 احتمالات مرتّبة حسب قوة الدليل.
+4) الأسباب المحتملة:
+- قدم 3–5 احتمالات مرتبة حسب القوة
 
-5️⃣ الأخطاء البشرية والفنية:
-- أخطاء في التشغيل، الصيانة، التدريب، إجراءات السلامة، التخزين.
+5) الأخطاء البشرية والفنية:
+- سوء تشغيل – سوء صيانة – تخزين خطير – قواطع كهربائية – تمديدات تالفة
+- أخطاء إدارة الطوارئ
 
-6️⃣ التوصيات:
-- تحسينات هندسية وتشغيلية.
-- تدريب العاملين.
-- تحديث أنظمة الإنذار والإطفاء.
-- خطوات لتقليل احتمالية تكرار الحادث.
+6) التوصيات:
+- تحسينات هندسية وتشغيلية
+- تدريب الفريق
+- تحديث أنظمة السلامة
+- خطة منع التكرار
 
-إذا كانت معلومات المستخدم غير واضحة اطلب منه:
-نوع المنشأة – المساحة – مكان بداية الحريق – أنظمة الإطفاء المتوفرة – وقت الحادث – الاستجابة.
+إذا كانت البيانات ناقصة اطلب من المستخدم: نوع المنشأة – وقت الحريق – بدايته – الأنظمة المتوفرة.
 
-ابدأ الرد بتحليل قوي وكامل ومنسق.
+ابدأ تحليلًا كاملًا ومنسقًا وواضحًا.
 `;
 
-const completion = await client.chat.completions.create({
-  model: "gpt-4o-mini",
-  messages: [
-    {
-      role: "system",
-      content: `
-      أنت مساعد FirePro One AI متخصص في أنظمة الإطفاء والإنذار والسلامة والكود السعودي.
-      دورك مساعدة المستخدم في:
-      - إنشاء التقارير الفنية
-      - الاستشارات السريعة
-      - التدريب والتأهيل
-      - تحليل حوادث الحرائق
+// =============================
+// الدالة الرئيسية للمساعد
+// =============================
+async function handleAssistantRequest(req, res) {
+  try {
+    const { user, lang = "ar", mode = "chat" } = req.body;
 
-      إذا كانت رسالة المستخدم تتعلق بـ "تحليل حادث حريق" أو "تحليل أسباب الحريق"
-      أو "سبب الحريق" أو وصف تفصيلي لحادث حريق:
-      عندها طبّق التعليمات التالية بحذافيرها:
+    // قراءة استفسار المستخدم
+    const userMessage = user || "";
 
-      ${fireIncidentPrompt}
+    // تجهيز الرسائل المرسلة للنموذج
+    const completion = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: `
+          أنت مساعد FirePro One AI المتخصص في:
+          - تحليل الحرائق
+          - تصميم أنظمة الإنذار
+          - مراجعة المخططات
+          - التدريب والتأهيل
+          - الاستشارات الفنية
+          - الكود السعودي والدفاع المدني و NFPA
 
-      في بقية الحالات:
-      تعامل مع السؤال بشكل طبيعي كـ FirePro One AI Assistant بدون مبالغة أو اختصار مخل،
-      وركز دائماً على معايير NFPA والكود السعودي والدفاع المدني.
-      `
-    },
-    {
-      role: "user",
-      content: userMessage
-    }
-  ],
-  temperature: 0.4,
-});
+          إذا احتوى نص المستخدم على:
+          (تحليل حريق – تحليل حادث – سبب الحريق – وقع حريق – أسباب الاشتعال)
+          فعليك استخدام برومبت تحليل الحوادث التالي:
 
-// النص النهائي من المساعد
-const replyText =
-  completion.choices?.[0]?.message?.content?.trim() ||
-  "لم يتم توليد رد نصي من نموذج الذكاء الاصطناعي.";
+          ${fireIncidentPrompt}
 
-    return res.json({ reply: replyText });
-  } catch (error) {
-    console.error("❌ Error in /chat:", error);
-    return res.status(500).json({
-      error:
-        "حدث خطأ داخلي أثناء الاتصال بالذكاء الاصطناعي. حاول مرة أخرى لاحقاً.",
+          أما في الأسئلة الأخرى:
+          استخدم خبرتك في أنظمة NFPA والكود السعودي.
+          `
+        },
+        {
+          role: "user",
+          content: userMessage
+        }
+      ],
+      temperature: 0.4,
     });
+
+    // النص النهائي من المساعد
+    const replyText =
+      completion.choices?.[0]?.message?.content?.trim() ||
+      "لم يتم توليد رد من المساعد.";
+
+    res.json({ reply: replyText });
+
+  } catch (error) {
+    console.error("AI Error:", error);
+    res.status(500).json({ error: "حدث خطأ في معالجة الطلب." });
   }
 }
 
-// مساران لنفس الدالة: /chat و /api/chat
-app.post("/chat", handleAssistantRequest);
-app.post("/api/chat", handleAssistantRequest);
+// =============================
+// نقطة استقبال طلبات الذكاء
+// =============================
+app.post("/ai", handleAssistantRequest);
 
-// ============= تشغيل السيرفر =================
+// =============================
+// تشغيل السيرفر
+// =============================
 app.listen(PORT, () => {
-  console.log("======================================");
-  console.log(`FirePro One AI server is running on port: ${PORT}`);
-  console.log("======================================");
+  console.log(`FirePro One AI server running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
