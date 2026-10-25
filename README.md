@@ -1,4 +1,13 @@
-🔥 FirePro One AI
+<p align="center">
+  <img src="firepro-logo.png" alt="FirePro One AI" width="220">
+</p>
+
+<h1 align="center">🔥 FirePro One AI</h1>
+
+<p align="center">
+  Artificial Intelligence for Fire Safety, Risk Assessment & Emergency Response
+</p>
+
 
 Artificial Intelligence for Fire Safety & Emergency Response
 
