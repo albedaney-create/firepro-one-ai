@@ -16,9 +16,6 @@
   <img src="https://img.shields.io/badge/FirePro%20One-Official-0C2747">
 </p>
 
-
-Artificial Intelligence for Fire Safety & Emergency Response
-
 FirePro One AI is an intelligent platform developed as part of the FirePro One ecosystem to support fire safety engineering, risk assessment, emergency response, smart firefighting and AI-assisted decision making.
 
 🌐 Official Website: https://www.fireproone.com
