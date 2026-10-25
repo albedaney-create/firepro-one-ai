@@ -8,6 +8,14 @@
   Artificial Intelligence for Fire Safety, Risk Assessment & Emergency Response
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/AI-Powered-blue">
+  <img src="https://img.shields.io/badge/Fire%20Safety-Engineering-red">
+  <img src="https://img.shields.io/badge/Smart-Firefighting-orange">
+  <img src="https://img.shields.io/badge/Saudi%20Arabia-Vision%202030-green">
+  <img src="https://img.shields.io/badge/FirePro%20One-Official-0C2747">
+</p>
+
 
 Artificial Intelligence for Fire Safety & Emergency Response
 
