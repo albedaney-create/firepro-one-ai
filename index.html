@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0C2747">
+<meta name="description" content="FirePro One AI — ذكاء اصطناعي للسلامة من الحريق، تقييم المخاطر والاستجابة للطوارئ.">
+<title>FirePro One AI</title>
+<style>
+:root{--n:#0C2747;--r:#E63946;--a:#FFB703;--bg:#050b14;--p:#0d1b2d;--t:#f8fafc;--m:#9fb0c4;--l:#ffffff18}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:radial-gradient(circle at 10% 0,#12365f 0,transparent 28%),radial-gradient(circle at 90% 5%,#5b1720 0,transparent 25%),linear-gradient(#07111f,#03070d);color:var(--t)}
+a{color:inherit;text-decoration:none}.wrap{width:min(1160px,calc(100% - 28px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:#050b14d9;backdrop-filter:blur(14px);border-bottom:1px solid var(--l)}
+nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.brand img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:14px;padding:4px}.brand b{letter-spacing:.06em}.brand small{display:block;color:var(--m);margin-top:3px}
+.links{display:flex;align-items:center;gap:17px;font-size:.9rem}.links a:hover{color:var(--a)}button{border:1px solid var(--l);background:#ffffff0d;color:#fff;padding:9px 13px;border-radius:999px;cursor:pointer;font-weight:700}
+.hero{padding:84px 0 54px}.hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:38px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #ffb7033c;background:#ffb70312;color:#ffe39b;border-radius:999px;font-size:.82rem}.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 5px #22c55e22}
+h1{font-size:clamp(2.5rem,6vw,5.2rem);line-height:1;margin:18px 0}.gold{color:var(--a)}.lead{font-size:1.1rem;line-height:1.9;color:#c8d4df;max-width:760px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.btn{padding:13px 18px;border-radius:14px;font-weight:800;border:1px solid var(--l)}.primary{background:linear-gradient(135deg,var(--r),#ff714f);border:0}.secondary{background:#ffffff0d}
+.panel{background:linear-gradient(155deg,#10243d,#07101c);border:1px solid var(--l);border-radius:26px;padding:28px;box-shadow:0 24px 80px #0006}.hero-logo{width:180px;margin:0 auto 18px;background:#fff;border-radius:22px;padding:9px}.status{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--l);color:#dbe7f3}.status em{font-style:normal;color:#86efac;font-weight:800}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}.metric{padding:17px;border:1px solid var(--l);border-radius:17px;background:#ffffff08}.metric b{display:block;font-size:1.45rem}.metric span{color:var(--m);font-size:.83rem}
+section{padding:62px 0}.head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:23px}.head h2{font-size:clamp(1.8rem,4vw,3rem);margin:10px 0 0}.head p{max-width:590px;color:var(--m);line-height:1.8;margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{padding:21px;border:1px solid var(--l);border-radius:21px;background:linear-gradient(160deg,#10243dd4,#07101ce8);min-height:205px}.ico{width:45px;height:45px;display:grid;place-items:center;border-radius:13px;background:#38bdf81a;border:1px solid #38bdf833;font-size:1.3rem}.card h3{margin:15px 0 9px;font-size:1.04rem}.card p{margin:0;color:var(--m);line-height:1.75;font-size:.9rem}.tag{display:inline-flex;margin-top:14px;padding:5px 8px;border-radius:999px;background:#ffb70310;border:1px solid #ffb70330;color:#ffe39b;font-size:.72rem}
+.arch{display:grid;grid-template-columns:1fr 1fr;gap:16px}.box{padding:23px;border:1px solid var(--l);border-radius:21px;background:#ffffff08}.box h3{margin-top:0}.item{display:flex;gap:10px;align-items:center;padding:11px 12px;margin:9px 0;border-radius:13px;background:#ffffff08}.item b{color:#38bdf8}.notice{margin-top:20px;padding:15px 17px;border-radius:15px;background:#ffb7030d;border:1px solid #ffb70333;color:#f6e4ad;line-height:1.7;font-size:.9rem}
+.cta{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:34px;border:1px solid var(--l);border-radius:28px;background:linear-gradient(135deg,#0c2747,#0b1728)}.cta h2{margin:0 0 9px}.cta p{margin:0;color:#c8d4df}
+footer{padding:30px 0 42px;color:var(--m);font-size:.85rem}.foot{display:flex;justify-content:space-between;gap:18px;border-top:1px solid var(--l);padding-top:22px}.footlinks{display:flex;gap:15px;flex-wrap:wrap}
+[data-en]{display:none}body.en{direction:ltr}body.en [data-ar]{display:none}body.en [data-en]{display:initial}
+@media(max-width:900px){.hero-grid,.arch{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.links a{display:none}.cta{grid-template-columns:1fr}}
+@media(max-width:600px){.grid,.metrics{grid-template-columns:1fr}.head,.foot{display:block}.head p{margin-top:12px}.brand small{display:none}}
+</style>
+</head>
+<body>
+<header><nav class="wrap">
+<a class="brand" href="#top"><img src="firepro-logo.png" alt="FirePro One"><span><b>FIREPRO ONE AI</b><small data-ar>الذكاء الاصطناعي للسلامة من الحريق</small><small data-en>Artificial Intelligence for Fire Safety</small></span></a>
+<div class="links"><a href="#tools" data-ar>المنصات الذكية</a><a href="#tools" data-en>AI Platforms</a><a href="#architecture" data-ar>البنية التقنية</a><a href="#architecture" data-en>Architecture</a><a href="https://www.fireproone.com" target="_blank" rel="noopener" data-ar>الموقع الرسمي</a><a href="https://www.fireproone.com" target="_blank" rel="noopener" data-en>Official Website</a><button id="lang">EN</button></div>
+</nav></header>
+
+<main id="top">
+<section class="hero"><div class="wrap hero-grid">
+<div>
+<span class="pill"><span class="dot"></span><span data-ar>FirePro One للابتكار والسلامة الذكية</span><span data-en>FirePro One Innovation & Intelligent Safety</span></span>
+<h1><span data-ar>ذكاء اصطناعي</span><span data-en>Artificial Intelligence</span><br><span class="gold" data-ar>يحمي الإنسان قبل الحادث</span><span class="gold" data-en>for Safer Decisions Before the Incident</span></h1>
+<p class="lead" data-ar>واجهة FirePro One AI تجمع هندسة الوقاية من الحريق، تقييم المخاطر، الاستجابة للطوارئ، التوأم الرقمي والتحليلات التنبؤية في تجربة رقمية موحدة تركّز على دعم القرار ورفع الجاهزية.</p>
+<p class="lead" data-en>FirePro One AI brings together fire protection engineering, risk assessment, emergency response, digital twins and predictive analytics in one digital experience focused on decision support and preparedness.</p>
+<div class="actions"><a class="btn primary" href="https://www.fireproone.com" target="_blank" rel="noopener"><span data-ar>استكشف FirePro One</span><span data-en>Explore FirePro One</span> ↗</a><a class="btn secondary" href="https://fireproone.blogspot.com/" target="_blank" rel="noopener"><span data-ar>مركز المعرفة</span><span data-en>Knowledge Center</span></a></div>
+<div class="metrics"><div class="metric"><b>AI</b><span data-ar>تحليل ودعم قرار</span><span data-en>Decision support</span></div><div class="metric"><b>24/7</b><span data-ar>وصول رقمي</span><span data-en>Digital access</span></div><div class="metric"><b>AR/EN</b><span data-ar>ثنائية اللغة</span><span data-en>Bilingual</span></div><div class="metric"><b>2030</b><span data-ar>ابتكار وتحول رقمي</span><span data-en>Innovation</span></div></div>
+</div>
+<aside class="panel"><img class="hero-logo" src="firepro-logo.png" alt="FirePro One AI"><h2>FirePro One AI</h2><p data-ar style="color:var(--m);line-height:1.7">بوابة موحدة للمنصات والأدوات الذكية في السلامة من الحريق وإدارة المخاطر.</p><p data-en style="color:var(--m);line-height:1.7">A unified gateway for intelligent fire safety and risk-management platforms.</p><div class="status"><span data-ar>حالة الواجهة</span><span data-en>Status</span><em>LIVE</em></div><div class="status"><span data-ar>الاستضافة</span><span data-en>Hosting</span><em>GitHub Pages</em></div><div class="status"><span data-ar>الهوية</span><span data-en>Identity</span><em>FirePro One</em></div></aside>
+</div></section>
+
+<section id="tools"><div class="wrap">
+<div class="head"><div><span class="pill" data-ar>المنصات والأدوات الذكية</span><span class="pill" data-en>Intelligent Platforms & Tools</span><h2 data-ar>منظومة واحدة، قدرات متعددة</h2><h2 data-en>One ecosystem, multiple capabilities</h2></div><p data-ar>نماذج من قدرات FirePro One في التحليل، التخطيط، المحاكاة، الجاهزية والصيانة.</p><p data-en>Examples of FirePro One capabilities across analysis, planning, simulation, readiness and maintenance.</p></div>
+<div class="grid">
+<article class="card"><div class="ico">🔥</div><h3>AI Fire Risk Assessment</h3><p data-ar>تحليل منظم لعوامل الخطورة ودعم ترتيب الأولويات والإجراءات التصحيحية.</p><p data-en>Structured fire-risk analysis supporting prioritization and corrective actions.</p><span class="tag">Risk Intelligence</span></article>
+<article class="card"><div class="ico">🚒</div><h3>Smart Fire Engine™</h3><p data-ar>دعم ما قبل الوصول لفهم الموقع والمياه والمخاطر وخيارات تمركز مركبة الإطفاء.</p><p data-en>Pre-arrival support for site context, water, hazards and apparatus positioning.</p><span class="tag">Response AI</span></article>
+<article class="card"><div class="ico">🧪</div><h3>Fire Investigation AI Lab™</h3><p data-ar>بيئة تحليلية لدعم التحقيق الفني في أسباب الحرائق وربط الأدلة والفرضيات.</p><p data-en>Analytical support for systematic fire-investigation reasoning and evidence review.</p><span class="tag">Investigation</span></article>
+<article class="card"><div class="ico">🌡️</div><h3>Fire Spread Forecast AI™</h3><p data-ar>تصور تنبؤي لاتجاهات انتشار الحريق وتطوير سيناريوهات الاستجابة.</p><p data-en>Predictive concepts for fire spread and response scenario awareness.</p><span class="tag">Forecasting</span></article>
+<article class="card"><div class="ico">👨‍🚒</div><h3>Firefighter Safety Twin™</h3><p data-ar>توأم رقمي يركز على سلامة رجل الإطفاء والحالة التشغيلية ومؤشرات الجاهزية.</p><p data-en>Digital twin focused on firefighter safety, operational status and readiness.</p><span class="tag">Digital Twin</span></article>
+<article class="card"><div class="ico">🔧</div><h3>Predictive Maintenance AI™</h3><p data-ar>تحليلات تنبؤية لصحة الأصول واحتمالات الأعطال وتخطيط الصيانة.</p><p data-en>Predictive asset-health analytics for failure risk and maintenance planning.</p><span class="tag">Maintenance AI</span></article>
+<article class="card"><div class="ico">🚨</div><h3>Smart Evacuation AI™</h3><p data-ar>دعم تخطيط الإخلاء من خلال الإشغال والمخارج والمخاطر وقيود المبنى.</p><p data-en>Evacuation planning support using occupancy, exits, hazards and constraints.</p><span class="tag">Life Safety</span></article>
+<article class="card"><div class="ico">🔔</div><h3>FACP AI Programmer™</h3><p data-ar>مساعد هندسي لبرمجة إنذار الحريق ومراجعة الحلقات والمناطق ومصفوفة السبب والنتيجة.</p><p data-en>Engineering assistance for alarm programming, loops, zones and cause-and-effect.</p><span class="tag">Fire Alarm</span></article>
+<article class="card"><div class="ico">🏙️</div><h3>Connected Safety OS™</h3><p data-ar>رؤية موحدة تربط البيانات والأجهزة والتوأم الرقمي والتحليلات التشغيلية.</p><p data-en>A connected vision linking data, devices, digital twins and operational analytics.</p><span class="tag">Connected Safety</span></article>
+</div></div></section>
+
+<section id="architecture"><div class="wrap">
+<div class="head"><div><span class="pill" data-ar>البنية التقنية</span><span class="pill" data-en>Technical Architecture</span><h2 data-ar>مصممة للتوسع من أداة إلى منظومة</h2><h2 data-en>Designed to scale</h2></div><p data-ar>رؤية تجمع الواجهات، خدمات الذكاء الاصطناعي، البيانات، إنترنت الأشياء والتوأم الرقمي.</p><p data-en>A vision combining interfaces, AI services, data, IoT and digital twins.</p></div>
+<div class="arch"><div class="box"><h3 data-ar>طبقات المنصة</h3><h3 data-en>Platform layers</h3><div class="item"><b>01</b><span data-ar>واجهات ويب وتطبيقات تفاعلية</span><span data-en>Web and interactive apps</span></div><div class="item"><b>02</b><span data-ar>خدمات ذكاء اصطناعي وتحليلات</span><span data-en>AI services and analytics</span></div><div class="item"><b>03</b><span data-ar>واجهات API وطبقة بيانات</span><span data-en>APIs and data layer</span></div><div class="item"><b>04</b><span data-ar>إنترنت الأشياء والتوأم الرقمي</span><span data-en>IoT and digital twins</span></div></div>
+<div class="box"><h3 data-ar>مبادئ التشغيل</h3><h3 data-en>Operating principles</h3><div class="item"><b>✓</b><span data-ar>الإنسان في دائرة القرار</span><span data-en>Human-in-the-loop</span></div><div class="item"><b>✓</b><span data-ar>قابلية التتبع والمراجعة الهندسية</span><span data-en>Traceability and review</span></div><div class="item"><b>✓</b><span data-ar>تصميم ثنائي اللغة وقابل للتوسع</span><span data-en>Bilingual and scalable</span></div><div class="item"><b>✓</b><span data-ar>ربط المعرفة بالبيانات والتشغيل</span><span data-en>Knowledge, data and operations</span></div></div></div>
+<div class="notice" data-ar>مهم: أدوات FirePro One AI مصممة لدعم المختصين وليست بديلًا عن الحكم الهندسي المهني أو متطلبات الجهات المختصة أو الأكواد والمعايير المعتمدة.</div><div class="notice" data-en>Important: FirePro One AI supports professionals and is not a substitute for engineering judgment, authority requirements, or applicable codes and standards.</div>
+</div></section>
+
+<section><div class="wrap cta"><div><h2 data-ar>ابدأ من منصة FirePro One الرسمية</h2><h2 data-en>Continue on the official FirePro One platform</h2><p data-ar>استكشف الأدوات والمقالات ومركز المعرفة والمشروعات الذكية.</p><p data-en>Explore tools, articles, knowledge resources and intelligent projects.</p></div><div class="actions" style="margin:0"><a class="btn primary" href="https://www.fireproone.com" target="_blank" rel="noopener">www.fireproone.com</a><a class="btn secondary" href="mailto:info@fireproone.com">info@fireproone.com</a></div></div></section>
+</main>
+
+<footer><div class="wrap foot"><div>© <span id="year"></span> FirePro One AI™ — <span data-ar>المعرفة • الابتكار • السلامة الذكية</span><span data-en>Knowledge • Innovation • Intelligent Safety</span></div><div class="footlinks"><a href="https://www.fireproone.com" target="_blank" rel="noopener">Website</a><a href="https://fireproone.blogspot.com/" target="_blank" rel="noopener">Blog</a><a href="mailto:info@fireproone.com">Contact</a><a href="https://github.com/albedaney-create/firepro-one-ai" target="_blank" rel="noopener">GitHub</a></div></div></footer>
+
+<script>
+const b=document.getElementById("lang");
+b.onclick=()=>{const e=document.body.classList.toggle("en");document.documentElement.lang=e?"en":"ar";document.documentElement.dir=e?"ltr":"rtl";b.textContent=e?"AR":"EN";localStorage.setItem("fpo-lang",e?"en":"ar")};
+if(localStorage.getItem("fpo-lang")==="en"){document.body.classList.add("en");document.documentElement.lang="en";document.documentElement.dir="ltr";b.textContent="AR"}
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
